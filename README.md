@@ -498,9 +498,9 @@ Logo mais você vai estar dominando o Redux e, consequentemente, dominando o mun
 # Exercícios
 Agora que você viu como todas partes se conectam, que tal praticamos um pouco?
 
-Nesses exercícios você vai se utilizar do código que desenvolvemos hoje para adicionar novas funcionalidades ao nosso aplicativo. Caso você queira, disponibilizamos um repositório com o código aqui [nesse link](https://github.com/herculesgabriel/exercise-react-redux).
+Nesses exercícios você vai se utilizar do código que desenvolvemos hoje para adicionar novas funcionalidades ao nosso aplicativo.
 
-Além disso, recomendo que você crie uma branch para realizar cada exercício. Não se preocupe, pois iremos te guiar nesse processo em cada exercício. Para relembrar:
+Recomendamos que você crie uma branch para realizar cada exercício. Não se preocupe, pois iremos te guiar nesse processo em cada exercício. Para relembrar:
 
 **Criar nova branch e mudar para ela**
 ```bash
