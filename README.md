@@ -486,7 +486,7 @@ Recebemos `history` como *props* e, já que se trata de um *array*, podemos faze
 
 Note que dessa vez passamos apenas um primeiro parâmetro para o `connect`, sendo ele a função que têm acesso ao estado global. Portanto, os dois parâmetros que ela recebe são uma função que acessa a `store` e uma função que acessa o `dispatch`, semelhantes a `store.getState()` e `store.dispatch()` do Redux. Os nomes que demos a essas funções são apenas convenção, pois facilitam o entendimento do que elas fazem.
 
-### Considerações finais
+## Considerações finais
 Finalmente! Chegamos ao fim da nossa aplicação e eu imagino que você deve estar no mínimo impressionado com tanto conteúdo. Antes de mais nada: calma. Realmente são muitas partes para conectar, mas depois que você praticar vai ficando mais óbvio o que fica aonde.
 
 Dá uma olhada na aplicação que acabamos de criar, testa no seu navegador, dá uma olhada nos códigos e não se esquece de usar a extensão do Redux no navegador:
