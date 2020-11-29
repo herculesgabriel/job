@@ -1,15 +1,19 @@
-## O que vamos aprender?
+# O que vamos aprender?
 Hoje você vai aprender a integrar os conhecimentos adquiridos sobre Redux ao React.
 
-## Você será capaz de:
+# Você será capaz de:
 Montar a estrutura necessária para o funcionamento do Redux no React através da criação e integração das seguintes partes:
 - store
-- actions
 - reducers
-- dispatches
+- combineReducers
+- actionCreators
+- Provider
+- connect
+- mapDispatchToProps
+- mapStateToProps
 
-## Porque isso é importante?
-Depois de alguns projetos em React você já deve ter percebido como o **state** é importante dentro de sua aplicação. Uma vez que ele é algo que muitos componentes irão ler e atualizar, deixar que a lógica de sua manipulação fique nas mãos de cada trecho de código em cada um desses componentes pode facilmente elevar o nível de complexidade de sua aplicação.
+# Por que isso é importante?
+Depois de alguns projetos em React você já deve ter percebido como o **state** é importante dentro de sua aplicação. Uma vez que ele é algo que muitos componentes irão ler e atualizar, deixar que a lógica de sua manipulação fique nas mãos de cada trecho de código, em cada um desses componentes, pode facilmente elevar o nível de complexidade de sua aplicação.
 
 Dentro do seu projeto muitas vezes você precisa levar uma informação a vários componentes diferentes, e você normalmente faz isso passando a informação através de **props**. À medida em que a aplicação cresce, o gerenciamento desses estados compartilhados entre os componentes torna-se uma tarefa complicada e desgastante e é aí que o Redux se torna interessante.
 
@@ -17,24 +21,24 @@ Utilizar o Redux para gerenciar o estado dos dados de sua aplicação tem o pote
 
 Alguns exemplos de como o Redux facilita o desenvolvimento:
 
-- Seu estado é armazenado num único lugar, garantindo uma fonte confiável daquela informação
-- Toda a manipulação dos dados também é feita num único lugar, facilitando a implementação
-- O estado fica acessível em qualquer nível da árvore de componentes, eliminando a necessidade de ficar passando **props** pra todo lado 
-- Durante o desenvolvimento um histórico do seu estado é guardado e disponibilizado como uma espécie de linha do tempo, onde você consegue ver exatamente como seu estado foi sendo modificado ao longo do tempo e quais ações específicam foram responsáveis por essas mudanças.
+- **Única Fonte da Verdade:** Seu estado é armazenado num único lugar, garantindo uma fonte confiável daquela informação.
+- **Código mais organizado:** Toda a manipulação dos dados também é feita num único lugar, facilitando a implementação.
+- **Sem *prop drilling*:** O estado fica acessível em qualquer nível da árvore de componentes, eliminando a necessidade de ficar passando **props** pra todo lado.
+- **Debug facilitado:** Durante o desenvolvimento, um histórico do seu estado é guardado e disponibilizado como uma espécie de linha do tempo, onde você consegue ver exatamente como seu estado foi sendo modificado ao longo do tempo e quais ações específicas foram responsáveis por essas mudanças.
 
-## Conteúdos
+# Conteúdos
 **Tempo sugerido para realização: 30 minutos**
 
 Antes de colocar a mão na massa, vamos relembrar o funcionamento do Redux.
 
 ### Store
-É o objeto que representa o estado global da aplicação. Nele serão armazenados todos os dados que queremos compartilhar entre os componentes da aplicação. A `store` será a nossa única fonte da verdade.
+É o objeto que representa o estado global da aplicação. Nele serão armazenados todos os dados que queremos compartilhar entre os componentes. A `store` será a nossa **Única Fonte da Verdade**.
 
 ### Reducers
 São funções chamadas cada vez que uma ação é disparada dentro da aplicação. Essas funções são responsáveis por lidar com o gerenciamento do estado dentro da `store` de acordo com a ação recebida.
 
 ### Actions
-São objetos que representam eventos ocorridos, como o clique de um botão pelo usuário. Elas indicam para os `reducers` quais mudanças devem ser realizadas no estado.
+São objetos que representam eventos ocorridos, como o clique de um botão pela pessoa usuária. Elas indicam para os `reducers` quais mudanças devem ser realizadas no estado.
 
 ### Dispatch
 É a função provida pela `store` responsável por enviar `actions` para os `reducers`.
