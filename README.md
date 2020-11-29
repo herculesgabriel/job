@@ -28,7 +28,7 @@ Alguns exemplos de como o Redux facilita o desenvolvimento:
 Antes de colocar a mão na massa, vamos relembrar o funcionamento do Redux.
 
 ### Store
-É o objeto que representa o estado global da aplicação. Nele serão armazenados todos os dados que queremos compartilhar entre os componentes da aplicação. A `store` será a nossa fonte da verdade.
+É o objeto que representa o estado global da aplicação. Nele serão armazenados todos os dados que queremos compartilhar entre os componentes da aplicação. A `store` será a nossa única fonte da verdade.
 
 ### Reducers
 São funções chamadas cada vez que uma ação é disparada dentro da aplicação. Essas funções são responsáveis por lidar com o gerenciamento do estado dentro da `store` de acordo com a ação recebida.
@@ -183,7 +183,10 @@ const calculateReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         result: action.a * action.b,
-        history: [...state.history, `${action.a} x ${action.b} = ${action.a * action.b}`]
+        history: [
+          ...state.history,
+          `${action.a} x ${action.b} = ${action.a * action.b}`
+        ]
       };
     default:
       return state;
@@ -441,18 +444,20 @@ Agora, abra o arquivo `src/components/CalculationsList.jsx`. Como esse component
 ```javascript
 import { connect } from 'react-redux';
 
-function CalculationsList({ history }) {
+function CalculationsList({ history, result }) {
   return (
-    <ul>
-      {
-        history.map((entry, index) => <li key={`${entry}-${index}`}>{entry}</li>)
-      }
-    </ul>
+    <>
+      <p>{result}</p>
+      <ul>
+        {history.map((entry, index) => <li key={`${entry}-${index}`}>{entry}</li>)}
+      </ul>
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
   history: state.calculateReducers.history,
+  result: state.calculateReducers.result
 });
 
 export default connect(mapStateToProps)(CalculationsList);
@@ -513,6 +518,21 @@ Adicione as outras duas operações à aplicação, contudo um único botão com
 **Atente-se aos requisitos:**
 - [ ] Deve existir uma caixa de seleção (select) para que a pessoa usuária escolha qual operação deseja realizar
 - [ ] Ao clicar no botão calcular o componente deve decidir qual `action` será enviada, correspondente à operação que o usuário escolher
+
+### Bônus
+
+- **Exercício 4** - Refatore a aplicação para trabalhar apenas com uma `action` 
+
+Nos exercícios anteriores você criou uma `action` específica para cada operação. Agora, você deverá criar uma única `action` que será responsável por indicar a operação a ser feita e os valores para o cálculo
+
+**Atente-se aos requisitos:**
+- [ ] Deve existir uma caixa de seleção (select) para que a pessoa usuária escolha qual operação deseja realizar
+- [ ] Deve existir apenas um botão para realizar o cálculo com o nome "Calcular"
+- [ ] Ao clicar no botão "Calcular" apenas uma `action` deverá ser enviada para o `reducer`
+- [ ] A `action` deverá conter os valores para o cálculo e a operação a ser feita, nesse formato: `{ type: CALCULAR, a, b, operation }`
+- [ ] A lógica dos cálculos deverá ser feita apenas dentro do arquivo `calculateReducer.js`
+
+Dica: você pode criar funções auxiliares dentro do arquivo, fora da função `reducer`.
 
 ## Recursos Adicionais (opcional)
 
