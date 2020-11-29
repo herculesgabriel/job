@@ -45,8 +45,7 @@ São objetos que representam eventos ocorridos, como o clique de um botão pela 
 
 ## Relembrando o fluxo
 
-<!-- ![](/assets/redux-flow.png) -->
-![](https://i.imgur.com/jGH4uIf.png)
+![](https://i.imgur.com/8DLb77a.png)
 
 Como você pode ver na imagem acima, existe um ciclo claro dentro do Redux:
 - Um evento acontece na *user interface* (UI), provocada pela pessoa usuária ou por processos internos do aplicativo
@@ -61,7 +60,7 @@ Vamos criar uma aplicação React para colocar em prática esses conceitos que a
 
 Iremos criar uma calculadora simples que, para fins didáticos, faz apenas multiplicações, mas que guarda o histórico dos cálculos feitos em uma lista. No final, você terá um resultado parecido com este:
 
-![](/assets/final-result.png)
+![](https://i.imgur.com/gQX5s3o.png)
 
 Pode parecer pouco, mas ao final desse dia você terá aprendido muito sobre Redux no React. Animado pra começar? Vamos nessa!
 
@@ -80,7 +79,7 @@ npm install redux react-redux
 ```
 Em seguida, vamos criar a estrutura básica do Redux parte por parte. Para facilitar o processo, crie a seguinte estrutura de pastas e arquivos dentro da pasta `src`:
 
-![](assets/redux-structure-example.png)
+![](https://i.imgur.com/kCLeXSO.png)
 
 Vamos começar pela **store**. Recomendo que você digite cada trecho de código, pois isso ajuda a memorizar os passos. Abra o arquivo `src/redux/store/index.js`. Aqui criaremos o objeto que vai representar o estado global da nossa aplicação:
 
@@ -234,8 +233,7 @@ Pronto! Finalizamos a criação de toda a lógica da nossa aplicação no que di
 
 Dentro da pasta `src` vamos criar uma pasta chamada `components` e dois componentes dentro dela, `Input.jsx` e `CalculationsList.jsx`.
 
-<!-- ![](assets/components.png) -->
-![](https://i.imgur.com/TYKfqXo.png)
+![](https://i.imgur.com/w4gVzZr.png)
 
 Antes de partirmos para o código desses componentes, vamos importá-los dentro do `App.js` e conhecer a estrutura necessária para termos acesso ao Redux por toda a aplicação.
 
@@ -493,16 +491,16 @@ Finalmente! Chegamos ao fim da nossa aplicação e eu imagino que você deve est
 
 Dá uma olhada na aplicação que acabamos de criar, testa no seu navegador, dá uma olhada nos códigos e não se esquece de usar a extensão do Redux no navegador:
 
-![](/assets/redux-extension.png)
+![](https://i.imgur.com/swb99B0.png)
 
 Logo mais você vai estar dominando o Redux e, consequentemente, dominando o mundo.
 
-## Exercícios
+# Exercícios
 Agora que você viu como todas partes se conectam, que tal praticamos um pouco?
 
 Nesses exercícios você vai se utilizar do código que desenvolvemos hoje para adicionar novas funcionalidades ao nosso aplicativo.
 
-- **Exercício 1** - Adicione a operação de soma
+### Exercício 1 - Adicione a operação de soma
 
 Atualmente só é possível fazer contas de multiplicação. Implemente a operação de soma na aplicação.
 
@@ -510,7 +508,7 @@ Atualmente só é possível fazer contas de multiplicação. Implemente a opera�
 - [ ] A implementação deverá ser feita adicionando mais um botão na tela
 - [ ] Cada botão deverá ser responsável por realizar um tipo de operação
 
-- **Exercício 2** - Permita apagar o histórico
+### Exercício 2 - Permita apagar o histórico
 
 Faça com que seja possível apagar todo o histórico de cálculos feitos anteriormente.
 
@@ -520,7 +518,7 @@ Faça com que seja possível apagar todo o histórico de cálculos feitos anteri
 - [ ] O resultado do último cálculo deverá continuar aparecendo na tela
 - [ ] Caso a pessoa usuária faça uma nova operação, a representação do cálculo deverá aparecer normalmente o primeiro item da lista
 
-- **Exercício 3** - Implemente as quatro operações matemáticas 
+### Exercício 3 - Implemente as quatro operações matemáticas 
 
 Adicione as outras duas operações à aplicação, contudo um único botão com o nome "Calcular" deve solicitar o cálculo
 
@@ -530,7 +528,7 @@ Adicione as outras duas operações à aplicação, contudo um único botão com
 
 ### Bônus
 
-- **Exercício 4** - Refatore a aplicação para trabalhar apenas com uma `action` 
+### Exercício 4 - Refatore a aplicação para trabalhar apenas com uma `action` 
 
 Nos exercícios anteriores você criou uma `action` específica para cada operação. Agora, você deverá criar uma única `action` que será responsável por indicar a operação a ser feita e os valores para o cálculo
 
