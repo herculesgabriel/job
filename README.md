@@ -6,7 +6,7 @@ Montar a estrutura necessária para o funcionamento do Redux no React através d
 - store
 - reducers
 - combineReducers
-- actionCreators
+- Action creators
 - Provider
 - connect
 - mapDispatchToProps
@@ -43,30 +43,29 @@ São objetos que representam eventos ocorridos, como o clique de um botão pela 
 ### Dispatch
 É a função provida pela `store` responsável por enviar `actions` para os `reducers`.
 
-### Relembrando o fluxo
+## Relembrando o fluxo
 
 <!-- ![](/assets/redux-flow.png) -->
 ![](https://i.imgur.com/jGH4uIf.png)
 
 Como você pode ver na imagem acima, existe um ciclo claro dentro do Redux:
-- Um evento acontece na interface de usuário (UI), provocada pelo usuário ou por processos internos do aplicativo
+- Um evento acontece na *user interface* (UI), provocada pela pessoa usuária ou por processos internos do aplicativo
 - Esse evento dispara uma `action`
 - Essa `action` é enviada através do `dispatch` para a `store`
 - A `store` se utiliza dos `reducers` para responder ao evento e manipular o estado conforme necessário
-- A mudança de estado provoca uma nova renderização nos componentes que se alimentam de informações providas pela `store`
+- A mudança de estado provoca uma nova renderização nos componentes que se alimentam das informações providas pela `store`
 
-### Redux com React
+## Redux com React
 
 Vamos criar uma aplicação React para colocar em prática esses conceitos que acabamos de ver.
 
 Iremos criar uma calculadora simples que, para fins didáticos, faz apenas multiplicações, mas que guarda o histórico dos cálculos feitos em uma lista. No final, você terá um resultado parecido com este:
 
-<!-- ![](/assets/final-result.png) -->
-![](https://i.imgur.com/SUxMDWU.png)
+![](/assets/final-result.png)
 
-Eu sei que não parece grande coisa, mas ao final desse dia você terá aprendido muito sobre Redux no React, por isso, vamos pecar por simplicidade. Animado pra começar? Vamos nessa!
+Pode parecer pouco, mas ao final desse dia você terá aprendido muito sobre Redux no React. Animado pra começar? Vamos nessa!
 
-### Montando a estrutura
+## Primeiros passos
 Como toda boa aventura, vamos começar com um **create-react-app**. Abra um terminal do seu Linux, navegue até sua pasta de exercícios e digite o comando abaixo:
 ```javascript
 npx create-react-app redux-calculator
@@ -79,12 +78,11 @@ Vamos precisar instalar duas bibliotecas no nosso projeto para usar o Redux. Ins
 ```bash
 npm install redux react-redux
 ```
-Em seguida, vamos criar a estrutura básica do Redux parte por parte. Para facilitar, crie a seguinte estrutura de pastas e arquivos dentro da pasta `src`:
+Em seguida, vamos criar a estrutura básica do Redux parte por parte. Para facilitar o processo, crie a seguinte estrutura de pastas e arquivos dentro da pasta `src`:
 
-<!-- ![](assets/redux-structure-example.png) -->
-![](https://i.imgur.com/VPpmWH5.png)
+![](assets/redux-structure-example.png)
 
-Vamos começar pela **store**. Abra o arquivo `src/redux/store/index.js`. Aqui criaremos o objeto que vai representar o estado global da nossa aplicação:
+Vamos começar pela **store**. Recomendo que você digite cada trecho de código, pois isso ajuda a memorizar os passos. Abra o arquivo `src/redux/store/index.js`. Aqui criaremos o objeto que vai representar o estado global da nossa aplicação:
 
 ```javascript
 import { createStore } from 'redux';
@@ -97,8 +95,8 @@ O `createStore` é uma função que importamos do pacote `redux` que faz exatame
 
 ```javascript
 const INITIAL_STATE = {
-  result: 0,
   history: [],
+  result: 0,
 };
 
 const calculateReducer = (state = INITIAL_STATE, action) => {
@@ -107,35 +105,35 @@ const calculateReducer = (state = INITIAL_STATE, action) => {
 
 export default calculateReducer;
 ```
-Primeiro nós criamos um objeto que representa o estado inicial da aplicação chamado *INITIAL_STATE*. Esse objeto possui uma chave `result`, que guardará o resultado da multiplicação, e uma chave `history`, um array que guardará cada multiplicação que fizermos em formato de string.
+Primeiro nós criamos um objeto que representa o estado inicial da aplicação chamado `INITIAL_STATE`. Esse objeto possui uma chave `result`, que guardará o resultado da multiplicação, e uma chave `history`, que é um array que guardará cada multiplicação que fizermos em formato de *string*.
 
 Em seguida criamos o *reducer* propriamente dito, que é a função que vai lidar com a lógica de mexer nesse nosso estado. Por enquanto, ela está apenas retornando o estado atual, mas logo voltaremos aqui para implementar sua lógica.
 
-O `calculateReducer` que exportamos desse arquivo é o `reducer` que precisamos para o `createStore`. Porém, se passarmos apenas ele como parâmetro ele será o único `reducer` responsável por manipular toda a store na nossa aplicação. Isso é um problema por si só? Não. Porém, se nossa aplicação cresce e aumentamos o número de manipulações, se torna necessário criar ouros reducers para separar bem as responsabilidades. Portanto, é boa prática preparar o terreno para receber outros `reducers` no futuro e fazemos isso através de outra função chamada `combineReducers`.
+O `calculateReducer` que exportamos desse arquivo é o *reducer* que precisamos para o `createStore`. Porém, se passarmos apenas ele como parâmetro ele será o **único** *reducer* responsável por manipular toda a store na nossa aplicação. Isso é um problema por si só? Não. Porém, se nossa aplicação cresce e aumentamos o número de manipulações, se torna necessário criar outros reducers para separar bem as responsabilidades. Portanto, é boa prática preparar o terreno para receber outros *reducers* no futuro e fazemos isso através de outra função chamada `combineReducers`.
 
-Abra o arquivo `src/redux/reducers/index.js`. Nele coloque o seguinte trecho de código:
+Abra o arquivo `src/redux/reducers/index.js`. Nele coloque o seguinte código:
 ```javascript
 import { combineReducers } from 'redux';
 
-import calculateReducers from './calculateReducer';
+import calculateReducer from './calculateReducer';
 
-const rootReducer = combineReducers({ calculateReducers })
+const rootReducer = combineReducers({ calculateReducer });
 
 export default rootReducer;
 ```
 
-O `combineReducers` é uma função que aceita um objeto como parâmetro. Esse objeto recebe todos os reducers que quisermos disponibilizar na nossa aplicação, portanto se tivéssemos mais de um reducer, essa função ficaria assim, por exemplo:
+O `combineReducers` é uma função que aceita um objeto como parâmetro. Esse objeto recebe todos os *reducers* que quisermos disponibilizar na nossa aplicação, portanto, se tivéssemos mais de um reducer, essa função ficaria assim, por exemplo:
 
 ```javascript
 const rootReducer = combineReducers({
   reducerOne,
   reducerTwo,
-  reducerThree
+  reducerThree,
 });
 ```
-Obs.: reparou que passamos apenas o nome do reducer dentro do objeto? Graças ao ES6 não precisamos digitar `{ chave: valor }` dentro de um objeto quando queremos usar o mesmo nome como chave. Entretanto, você poderia definir um nome qualquer para guardar o seu reducer, como por exemplo `{ multiplier: calculateReducer }`.
+OBS.: Reparou que passamos apenas o nome do *reducer* dentro do objeto? Graças ao ES6 não precisamos digitar `{ chave: valor }` dentro de um objeto quando queremos usar o mesmo nome como chave. Entretanto, você poderia definir um nome qualquer para guardar o seu reducer, como por exemplo `{ multiplier: calculateReducer }`.
 
-Ao final do arquivo apenas exportamos o `rootReducer`, que guarda todos os nossos reducers e é ele mesmo que vamos passar para o nosso `createStore`. Atualizando o `src/redux/store/index.js`:
+Ao final do arquivo apenas exportamos o `rootReducer`, que guarda todos os nossos *reducers* e é ele mesmo que vamos passar para o nosso `createStore`. Atualizando o `src/redux/store/index.js`:
 
 ```javascript
 // import { createStore } from 'redux';
@@ -149,9 +147,9 @@ const store = createStore(
 
 // export default store;
 ```
-Certo. Importamos o `rootReducer` que acabamos de criar e passamos como parâmetro para o `createStore`, mas o que é esse segundo parâmetro? Não precisa se preocupar em entender como ele funciona, mas o que ele faz é permitir que você possa usar a extensão do Redux no navegador para facilitar o desenvolvimento, tal como usamos a extensão *Components* do React, pois ela permite verificar todo o fluxo de actions e estado acontecendo em tempo real.
+Certo. Importamos o `rootReducer` que acabamos de criar e o passamos como parâmetro para o `createStore`, mas o que é esse segundo parâmetro? Não precisa se preocupar em entender como ele funciona, mas o que ele faz é permitir que você possa usar a **extensão do Redux no navegador** para facilitar o desenvolvimento, tal como usamos a extensão *Components*, do React, pois ela permite verificar todo o fluxo de *actions* e estado acontecendo em tempo real.
 
-Bem, agora só falta implementar a lógica da multiplicação no nosso reducer. Como o Redux funciona orientado aos eventos, precisamos criar a representação desse evento, que é o que chamamos de `actions`.
+Bem, agora só falta implementar a lógica da multiplicação no nosso *reducer*. Como o Redux funciona orientado aos eventos, precisamos criar a representação desse evento, que é o que chamamos de **actions**.
 
 Para tal, vamos abrir o arquivo `src/redux/actions/index.js` e criar a seguinte estrutura:
 ```javascript
@@ -163,13 +161,13 @@ export const multiply = (a, b) => ({
   b,
 });
 ```
-O `multiply` é uma `action creator` e, se você bem lembra, nada mais é do que uma função que retorna um objeto. Esse objeto, por sua vez, contém obrigatóriamente uma chave `type` que guarda uma *string* representando a ação a ser realizada.
+O `multiply` é uma **action creator** e, se você bem lembra, nada mais é do que uma função que retorna um objeto. Esse objeto é a nossa *action* e, por sua vez, precisa ter obrigatoriamente uma chave `type` que guarda uma *string* representando a ação a ser realizada.
 
-Observe também que é que boa prática criar uma variável apenas para guardar essa *string*, do jeitinho como fizemos no código, e ainda a exportamos para usar no arquivo do `reducer`.
+Observe também que é que boa prática criar uma variável apenas para guardar essa *string*, do jeitinho como fizemos no código, e ainda a exportamos para usar no arquivo do *reducer* mais tarde.
 
-Além disso, como esse objeto pode ter outras informações que sejam necessárias para aquela ação, estamos passando também dois valores, `a` e `b`, que recebemos como parâmetro na hora de chamarmos a função.
+Além disso, como esse objeto pode ter outras informações que sejam necessárias para aquela ação, estamos passando também dois valores, `a` e `b`, que receberemos como parâmetros na hora de chamarmos a função.
 
-Pode parecer um pouco confuso uma vez que estamos criando primeiro a estrutura de uma aplicação pronta, mas enquanto você estiver desenvolvendo seus próprios códigos ficará mais claro perceber o que sua `action creator` deve ter de informação. Por ora, apenas entenda que quando chamarmos essa função precisamos fornecer a ela os dois valores que queremos multiplicar e o reducer que se encarre de fazer acontecer.
+Pode parecer um pouco confuso agora, uma vez que estamos criando primeiro a estrutura de uma aplicação pronta, mas enquanto você estiver desenvolvendo seus próprios códigos ficará mais claro perceber o que sua `action creator` deve ter de informação. Por ora, apenas entenda que quando chamarmos essa função precisamos fornecer a ela os dois valores que queremos multiplicar e o *reducer* que se encarregue de fazer acontecer.
 
 Por fim, no arquivo `src/redux/reducers/calculateReducer.js`:
 
@@ -189,8 +187,8 @@ const calculateReducer = (state = INITIAL_STATE, action) => {
         result: action.a * action.b,
         history: [
           ...state.history,
-          `${action.a} x ${action.b} = ${action.a * action.b}`
-        ]
+          `${action.a} x ${action.b} = ${action.a * action.b}`,
+        ],
       };
     default:
       return state;
@@ -202,9 +200,9 @@ const calculateReducer = (state = INITIAL_STATE, action) => {
 
 Uau, quanta coisa! Vamos por partes.
 
-Primeiro importamos aquela variável que criamos no arquivo de `actions` para usar dentro da função `calculateReducer`. Essa função, por sua vez, é executada toda vez que uma `action` é disparada e recebe dois parâmetros: o `state` atual e a `action` disparada.
+Primeiro importamos aquela variável que criamos no arquivo com as nossas *actions* para usar dentro da função `calculateReducer`. Essa função, por sua vez, é executada toda vez que uma *action* é disparada e recebe dois parâmetros: o `state` atual e a `action` disparada.
 
-No nosso caso, a `action` que ele recebe é o objeto retornado da `action creator` `multiply` que criamos anteriormente. Apenas para relembrar a estrutura desse objeto:
+No nosso caso, a *action* que ele recebe é o objeto retornado da *action creator* `multiply` que criamos anteriormente. Apenas para relembrar a estrutura desse objeto:
 
 ```javascript
 // export const multiply = (a, b) => (
@@ -216,20 +214,23 @@ No nosso caso, a `action` que ele recebe é o objeto retornado da `action creato
 // );
 ```
 
-O `switch` verifica se o `type` da nossa `action` é 'MULTIPLY' e, em caso positivo, ele **retorna um novo objeto** que será o nosso **novo estado**. Lembre-se: nós **nunca** modificamos diretamente o estado atual; cada vez que quisermos modificar o estado, nós criamos uma cópia desse objeto com os novos valores e retornamos ele, de modo que o estado anterior fique intacto. Isso é parte de como o Redux funciona e, caso você modifique o estado diretamente, sua aplicação vai se comportar de forma diferente do esperado.
+O *switch* verifica se o `type` da nossa *action* é 'MULTIPLY' e, em caso positivo, ele **retorna um novo objeto** que será o nosso **novo estado**. Lembre-se: nós **nunca** modificamos diretamente o estado atual; cada vez que quisermos modificar o estado, nós criamos uma cópia desse objeto com os novos valores e o retornamos, de modo que o estado anterior fique intacto. Isso é parte de como o Redux funciona e, caso você modifique o estado diretamente, sua aplicação vai se comportar de forma diferente do esperado.
 
 Respeitando o que acabamos de ler acima, observe o que fizemos:
 - Criamos um novo objeto: `{}`
 - Copiamos dentro dele o estado anterior usando o spread: `{ ...state }`
-No nosso exemplo atual isso não é necessário, pois iremos atualizar diretamente as duas únicas chaves dentro de nosso estado (`result` e `history`), mas é boa prática, pois assim outras chaves seriam automaticamente copiadas caso as implementássemos no futuro. Assim a gente não precisa rescrever cada `case` depois.
+
+No nosso exemplo atual isso não é necessário, pois iremos atualizar diretamente as duas únicas chaves dentro de nosso estado (`result` e `history`), mas é boa prática, pois assim outras chaves seriam automaticamente copiadas caso as implementássemos no futuro. Assim a gente não precisa reescrever cada *case* depois.
 - Atualizamos a chave `result` com o valor resultante da multiplicação dos valores que a `action` carregava: `{ result: action.a * action.b }`
-Essa chave guarda o valor atual da multiplicação
+
+Essa chave guarda o valor atual da multiplicação.
 - Atualizamos a chave `history` adicionando a representação dessa multiplicação ao array que ela continha.
-A chave `history` é um array que contém dados no seguinte formato `'n1 x n2 = n3'`. Ou seja, caso a conta seja `3 x 6` queremos adicionar ao array a seguinte string `'3 x 6 = 18'`. Por que não usamos o método `push()`? Pois ele modifica o array original e não queremos isso. Portanto, apenas copiamos os valores que já existem lá dentro e colocamos o novo valor `[ ...state.history, novaString ]`. 
+
+A chave `history` é um array que contém dados no seguinte formato `'n1 x n2 = n3'`. Ou seja, caso a conta seja `3 x 6` queremos adicionar ao array a seguinte string `'3 x 6 = 18'`. Por que não usamos o método `push()`? Pois ele modifica o *array* original e não queremos isso. Portanto, apenas copiamos os valores que já existem lá dentro e colocamos o novo valor `[ ...state.history, novaString ]`. 
 
 Pronto! Finalizamos a criação de toda a lógica da nossa aplicação no que diz repeito ao uso do Redux. Agora, vamos ver como consumimos essas informações dentro dos nossos componentes React.
 
-### Implementando os componentes
+## Criando os componentes
 
 Dentro da pasta `src` vamos criar uma pasta chamada `components` e dois componentes dentro dela, `Input.jsx` e `CalculationsList.jsx`.
 
@@ -256,7 +257,7 @@ function App() {
 export default App;
 ```
 
-Como esses componentes precisam ter acesso à nossa `store`, precisaremos envolvê-los com o componente `Provider`, fornecido pelo pacote `react-redux` e passar a `store` que criamos como `props` para ele:
+Como esses componentes precisam ter acesso à nossa *store*, precisaremos envolvê-los com o componente `Provider`, fornecido pelo pacote `react-redux` e passar a `store` que criamos como *props* para ele:
 
 ```javascript
 import { Provider } from 'react-redux';
@@ -334,9 +335,9 @@ class Input extends Component {
 
 export default Input;
 ```
-Até aqui, esse é um código que você já deve estar bem familiarizado. Gaste um tempo entendendo o que ele faz, pois não tem nada que você já não tenha visto antes. Basicamente temos dois inputs que têm seus valores armazenados no state do componente e, ao clicarmos no botão, queremos enviar esses valores através de uma `action` para o `reducer` que vai cuidar de fazer a multiplicação pra gente.
+Até aqui, esse é um código que você já deve estar bem familiarizado. Gaste um tempo entendendo o que ele faz, pois não tem nada que você já não tenha visto antes. Basicamente temos dois inputs que têm seus valores armazenados no *state* do componente e, ao clicarmos no botão, queremos enviar esses valores através de uma *action* para o *reducer* que vai cuidar de fazer a multiplicação pra gente.
 
-Agora, implementaremos o a parte de código do Redux e explicaremos o que cada trecho faz em seguida:
+Agora, implementaremos a parte de código do Redux e a explicação do que cada trecho faz vem em seguida:
 
 ```javascript
 // import { Component } from 'react';
@@ -356,7 +357,7 @@ import { multiply } from '../redux/actions';
 
   render() {
     const { value_1, value_2 } = this.state; */
-    const { doMultiplication } = this.props;
+    const { makeMultiplication } = this.props;
 
     /* return (
       <div>
@@ -382,7 +383,7 @@ import { multiply } from '../redux/actions';
 
         <button
           type="button" */
-          onClick={() => doMultiplication(value_1, value_2)}
+          onClick={() => makeMultiplication(value_1, value_2)}
         /* >
           Calcular
         </button>
@@ -392,7 +393,7 @@ import { multiply } from '../redux/actions';
 } */
 
 const mapDispatchToProps = (dispatch) => ({
-  doMultiplication: (a, b) => dispatch(multiply(a, b)),
+  makeMultiplication: (a, b) => dispatch(multiply(a, b)),
 });
 
 export default connect(null, mapDispatchToProps)(Input);
@@ -402,37 +403,37 @@ Mais uma vez: por partes.
 
 - Importamos a função `connect` do pacote `react-redux` e a utilizamos na exportação do componente
 
-Essa sintaxe pode parecer muito estranha a princípio, mas perceba o que está acontecendo: `connect` é uma função e como abrimos parênteses logo em seguida, significa que estamos executando-a, passando `null` e `mapDispatchToProps` como parâmetros (falaremos sobre eles logo mais). Depois de executada, essa função retorna uma nova função; em seguida, como estamos colocando outro parênteses, estamos executando esse função retornada, passando o `Input` como parâmetro. Legal, não é?! O fluxo é basicamente esse:
+Essa sintaxe pode parecer muito estranha a princípio, mas perceba o que está acontecendo: `connect` é uma função e como abrimos parênteses logo em seguida, significa que estamos executando-a, passando `null` e `mapDispatchToProps` como parâmetros (falaremos sobre eles logo mais). Depois de executada, essa função retorna uma nova função; como estamos colocando outro parênteses, estamos executando esse função retornada, passando o `Input` como parâmetro. Legal, não é?! O fluxo é basicamente esse:
 ```
 function1(param1, param2) { return function2 };
 function2(Componente) { return ComponenteTurbinado };
 ```
-- Criamos uma função chamada `mapDispatchToProps` que nos fornecerá acesso ao `dispatch` do Redux, retornando um objeto com os `dispatches` que precisarmos
+- Criamos uma função chamada `mapDispatchToProps` que nos fornecerá acesso ao `dispatch` do Redux, retornando um objeto com os *dispatches* que precisarmos
 
-Essa função recebe como parâmetro o `dispatch`, que é a função da nossa `store` responsável por enviar as `actions` ao `reducer`, lembra? Criamos uma chave chamada `doMultiplication` que guarda uma função. Essa função é a execução do `dispatch` que recebemos como parâmetro. Dentro da `dispatch` precisamos ter a `action` que queremos enviar, certo? Portanto, em vez de a escrevermos diretamente dentro do `dispatch`, vamos importar a função que nós já criamos que retorna essa `action`, a `multiply`:
+Essa função recebe como parâmetro o `dispatch`, que é a função da nossa *store* responsável por enviar as *actions* ao *reducer*, lembra? Criamos uma chave chamada `makeMultiplication` que guarda uma função. Essa função é a execução do `dispatch` que recebemos como parâmetro. Dentro da *dispatch* precisamos ter a *action* que queremos enviar, certo? Portanto, em vez de a escrevermos diretamente dentro do `dispatch`, vamos importar a função que nós já criamos que retorna essa *action*, a `multiply`:
 ```javascript
 import { multiply } from '../redux/actions';
 ```
-E a executamos dentro do dispatch para que ela nos retorne a action:
+E a executamos dentro do dispatch para que ela nos retorne a *action*:
 ```javascript
 dispatch(multiply())
 ```
-Quando precisarmos enviar essa action, só precisamos executar a chave `doMultiplication`. E onde acessamos essa chave? A resposta está no nome que demos para a função: `mapDispatchToProps`. Exatamente. Estamos fazendo um "mapeamento" de dispatches para a props do componente. Portanto, toda chave criada dentro dessa função fica acessível como `props` dentro do próprio componente. Nesse caso, teremos uma `prop` chamada `doMultiplication` no nosso componente `Input`.
+Quando precisarmos enviar essa action, só precisamos executar a chave `makeMultiplication`. E onde acessamos essa chave? A resposta está no nome que demos para a função: `mapDispatchToProps`. Exatamente. Estamos fazendo um "mapeamento" de dispatches para a *props* do componente. Portanto, toda chave criada dentro dessa função fica acessível como *props* dentro do próprio componente. Nesse caso, teremos uma *prop* chamada `makeMultiplication` no nosso componente `<Input />`.
 
-- Uma vez que temos o `doMultiplication` como `props`, podemos utilizá-lo dentro do nosso botão
+- Uma vez que temos o `makeMultiplication` como *props*, podemos utilizá-lo dentro do nosso botão
 ```javascript
 // const { value_1, value_2 } = this.state;
-const { doMultiplication } = this.props;
+const { makeMultiplication } = this.props;
 // ...
 // <button
   // type="button"
-  onClick={() => doMultiplication(value_1, value_2)}
+  onClick={() => makeMultiplication(value_1, value_2)}
 // >
   // Calcular
 // </button>
 // ...
 // const mapDispatchToProps = (dispatch) => ({
-  doMultiplication: (a, b) => dispatch(multiply(a, b)),
+  makeMultiplication: (a, b) => dispatch(multiply(a, b)),
 // });
 ```
 
@@ -451,7 +452,10 @@ import { connect } from 'react-redux';
 function CalculationsList({ history, result }) {
   return (
     <>
+      <h2>Resultado</h2>
       <p>{result}</p>
+      
+      <h2>Histórico</h2>
       <ul>
         {history.map((entry, index) => <li key={`${entry}-${index}`}>{entry}</li>)}
       </ul>
@@ -460,15 +464,15 @@ function CalculationsList({ history, result }) {
 }
 
 const mapStateToProps = (state) => ({
-  history: state.calculateReducers.history,
-  result: state.calculateReducers.result
+  history: state.calculateReducer.history,
+  result: state.calculateReducer.result,
 });
 
 export default connect(mapStateToProps)(CalculationsList);
 ```
 Novamente importamos o `connect` para termos acesso ao Redux dentro do nosso componente. Dessa vez criamos uma função que recebe como parâmetro o estado global da aplicação, a `store` propriamente dita.
 
-Como o nome da função já indica, estamos fazendo o mapeamento de algo nesse estado para a `props` do componente. Se você não lembra o nosso state tem a seguinte estrutura:
+Como o nome da função já indica, estamos fazendo o mapeamento do estado para a *props* do componente. Se você bem se lembra, o nosso *state* tem a seguinte estrutura:
 ```javascript
 {
   history: [],
@@ -477,20 +481,21 @@ Como o nome da função já indica, estamos fazendo o mapeamento de algo nesse e
 ```
 Como temos acesso a esse estado através do reducer apropriado que passamos como parâmetro dentro do `createStore`, nós o acessamos dessa forma:
 ```javascript
-state.calculateReducers.history
+state.calculateReducer.history
 ```
 
-Recebemos `history` como `props` e, já que se trata de um *array*, podemos fazer um *map* para exibir seu conteúdo dentro de uma lista.
+Recebemos `history` como *props* e, já que se trata de um *array*, podemos fazer um *map* para exibir seu conteúdo dentro de uma lista.
 
-Note que dessa vez passamos apenas um primeiro parâmetro para o `connect`, que a função que têm acesso ao estado global. Portanto, os dois parâmetros que ela recebe são uma função que acessa a `store` e uma função que acessa o `dispatch`, semelhantes a `store.getState()` e `store.dispatch()`. Os nomes que demos a essas funções são apenas convenção, pois facilitam o entendimento do que elas fazem.
+Note que dessa vez passamos apenas um primeiro parâmetro para o `connect`, sendo ele a função que têm acesso ao estado global. Portanto, os dois parâmetros que ela recebe são uma função que acessa a `store` e uma função que acessa o `dispatch`, semelhantes a `store.getState()` e `store.dispatch()` do Redux. Os nomes que demos a essas funções são apenas convenção, pois facilitam o entendimento do que elas fazem.
 
 ### Considerações finais
 Finalmente! Chegamos ao fim da nossa aplicação e eu imagino que você deve estar no mínimo impressionado com tanto conteúdo. Antes de mais nada: calma. Realmente são muitas partes para conectar, mas depois que você praticar vai ficando mais óbvio o que fica aonde.
 
-Dá uma olhada na aplicação que acabamos de criar, testa no seu navegador, dá uma olhada nos códigos e não se esquece de usar a extensão do Redux no navegador. 
+Dá uma olhada na aplicação que acabamos de criar, testa no seu navegador, dá uma olhada nos códigos e não se esquece de usar a extensão do Redux no navegador:
 
-<!-- ![](assets/redux-extension.png) -->
-![](https://i.imgur.com/jU4w7Br.png)
+![](/assets/redux-extension.png)
+
+Logo mais você vai estar dominando o Redux e, consequentemente, dominando o mundo.
 
 ## Exercícios
 Agora que você viu como todas partes se conectam, que tal praticamos um pouco?
