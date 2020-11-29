@@ -60,7 +60,7 @@ Vamos criar uma aplicação React para colocar em prática esses conceitos que a
 
 Iremos criar uma calculadora simples que, para fins didáticos, faz apenas multiplicações, mas que guarda o histórico dos cálculos feitos em uma lista. No final, você terá um resultado parecido com este:
 
-![](https://i.imgur.com/gQX5s3o.png)
+![](https://i.imgur.com/w8GbtKe.png)
 
 Pode parecer pouco, mas ao final desse dia você terá aprendido muito sobre Redux no React. Animado pra começar? Vamos nessa!
 
@@ -324,7 +324,7 @@ class Input extends Component {
           type="button"
           onClick={/* aqui pediremos ao Redux para fazer a multiplicação */}
         >
-          Calcular
+          Multiplicar
         </button>
       </div>
     )
@@ -383,7 +383,7 @@ import { multiply } from '../redux/actions';
           type="button" */
           onClick={() => makeMultiplication(value_1, value_2)}
         /* >
-          Calcular
+          Multiplicar
         </button>
       </div>
     )
@@ -427,7 +427,7 @@ const { makeMultiplication } = this.props;
   // type="button"
   onClick={() => makeMultiplication(value_1, value_2)}
 // >
-  // Calcular
+  // Multiplicar
 // </button>
 // ...
 // const mapDispatchToProps = (dispatch) => ({
@@ -491,55 +491,79 @@ Finalmente! Chegamos ao fim da nossa aplicação e eu imagino que você deve est
 
 Dá uma olhada na aplicação que acabamos de criar, testa no seu navegador, dá uma olhada nos códigos e não se esquece de usar a extensão do Redux no navegador:
 
-![](https://i.imgur.com/swb99B0.png)
+![](https://i.imgur.com/DY9DfzP.png)
 
 Logo mais você vai estar dominando o Redux e, consequentemente, dominando o mundo.
 
 # Exercícios
 Agora que você viu como todas partes se conectam, que tal praticamos um pouco?
 
-Nesses exercícios você vai se utilizar do código que desenvolvemos hoje para adicionar novas funcionalidades ao nosso aplicativo.
+Nesses exercícios você vai se utilizar do código que desenvolvemos hoje para adicionar novas funcionalidades ao nosso aplicativo. Caso você queira, disponibilizamos um repositório com o código aqui [nesse link](https://github.com/herculesgabriel/exercise-react-redux).
+
+Além disso, recomendo que você crie uma branch para realizar cada exercício. Não se preocupe, pois iremos te guiar nesse processo em cada exercício. Para relembrar:
+
+**Criar nova branch e mudar para ela**
+```bash
+git checkout -b novaBranch
+```
+**Trocar de branch**
+```bash
+git checkout main
+```
 
 ### Exercício 1 - Adicione a operação de soma
 
 Atualmente só é possível fazer contas de multiplicação. Implemente a operação de soma na aplicação.
 
-**Atente-se aos requisitos:**
-- [ ] A implementação deverá ser feita adicionando mais um botão na tela
+- Para este exercício crie uma nova branch a partir da **main**
+
+**Requisitos:**
+- [ ] A implementação deverá ser feita adicionando **mais um botão** na tela com o texto "Somar"
 - [ ] Cada botão deverá ser responsável por realizar um tipo de operação
 
 ### Exercício 2 - Permita apagar o histórico
 
 Faça com que seja possível apagar todo o histórico de cálculos feitos anteriormente.
 
-**Atente-se aos requisitos:**
-- [ ] A implementação deverá ser feita adicionando mais um botão na tela
+- Para este exercício crie uma nova branch a partir da branch que você criou no exercício 1
+
+**Requisitos:**
+- [ ] A implementação deverá ser feita adicionando **mais um botão** na tela com o texto "Limpar histórico"
 - [ ] Ao clicar no botão de apagar a lista deve ficar vazia e, portanto, não aparecer mais em tela
 - [ ] O resultado do último cálculo deverá continuar aparecendo na tela
-- [ ] Caso a pessoa usuária faça uma nova operação, a representação do cálculo deverá aparecer normalmente o primeiro item da lista
+- [ ] Caso a pessoa usuária faça uma nova operação, a representação do cálculo deverá aparecer normalmente como o primeiro item da lista
 
 ### Exercício 3 - Implemente as quatro operações matemáticas 
 
-Adicione as outras duas operações à aplicação, contudo um único botão com o nome "Calcular" deve solicitar o cálculo
+Adicione as outras duas operações à aplicação. No entanto, dessa vez um único botão deve solicitar o cálculo.
 
-**Atente-se aos requisitos:**
-- [ ] Deve existir uma caixa de seleção (select) para que a pessoa usuária escolha qual operação deseja realizar
-- [ ] Ao clicar no botão calcular o componente deve decidir qual `action` será enviada, correspondente à operação que o usuário escolher
+- Para este exercício crie uma nova branch a partir da branch que você criou no exercício 2
 
-### Bônus
+**Requisitos:**
+- [ ] Além do botão de limpar a lista criado no último exercício, **deve existir apenas um botão com o texto "Calcular"**
+- [ ] Deve existir uma caixa de seleção (*select*) para que a pessoa usuária escolha qual operação deseja realizar
+- [ ] O valor desse *select* deve ser guardado no estado do próprio componente
+- [ ] Ao clicar no botão calcular **o componente deve decidir qual *action* será enviada**, correspondente à operação que o usuário escolher
+- [ ] Você deve criar uma função dentro do componente para lidar com a lógica desse clique
 
-### Exercício 4 - Refatore a aplicação para trabalhar apenas com uma `action` 
+## Bônus
 
-Nos exercícios anteriores você criou uma `action` específica para cada operação. Agora, você deverá criar uma única `action` que será responsável por indicar a operação a ser feita e os valores para o cálculo
+### Exercício 4 - Refatore a aplicação para trabalhar apenas com uma *action* 
 
-**Atente-se aos requisitos:**
-- [ ] Deve existir uma caixa de seleção (select) para que a pessoa usuária escolha qual operação deseja realizar
-- [ ] Deve existir apenas um botão para realizar o cálculo com o nome "Calcular"
-- [ ] Ao clicar no botão "Calcular" apenas uma `action` deverá ser enviada para o `reducer`
-- [ ] A `action` deverá conter os valores para o cálculo e a operação a ser feita, nesse formato: `{ type: CALCULAR, a, b, operation }`
+Nos exercícios anteriores você criou uma *action* específica para cada operação. Agora, você deverá criar uma única *action* que indicará a operação a ser feita além de fornecer os valores para o cálculo.
+
+- Para este exercício crie uma nova branch a partir da **main**
+
+**Requisitos:**
+- [ ] Deve existir uma caixa de seleção (*select*) para que a pessoa usuária escolha qual operação deseja realizar
+- [ ] O valor desse *select* deve ser guardado no estado do próprio componente
+- [ ] Deve existir apenas um único botão para realizar o cálculo com o texto "Calcular"
+- [ ] Ao clicar no botão de calcular apenas uma *action* deverá ser despachada para o *reducer*
+- [ ] A *action* deverá conter os valores para o cálculo e a operação a ser feita, nesse formato: `{ type: CALCULAR, a, b, operation }`
 - [ ] A lógica dos cálculos deverá ser feita apenas dentro do arquivo `calculateReducer.js`
+- [ ] Volte a implementar a lógica de limpar o histórico
 
-Dica: você pode criar funções auxiliares dentro do arquivo, fora da função `reducer`.
+Dica: você pode criar funções auxiliares dentro do arquivo `calculateReducer.js`, fora da função *reducer*.
 
 ## Recursos Adicionais (opcional)
 
